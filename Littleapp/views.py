@@ -5,6 +5,8 @@ from .models import Booking, Menu
 from .serializers import bookingSerializer, menuSerializer
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 class MenuItemView(generics.ListCreateAPIView):
     queryset = Menu.objects.all()
@@ -33,3 +35,9 @@ class BookingViewset(viewsets.ModelViewSet):
 
 def index(request):
     return render(request, 'index.html', {})
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def secret_message(request):
+    return Response("Message is a secret and protected")
+    
